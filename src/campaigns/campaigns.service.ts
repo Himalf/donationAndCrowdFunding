@@ -30,8 +30,8 @@ export class CampaignsService {
     return await this.campaignRepository.save(campaignData);
   }
 
-  findAll() {
-    return `This action returns all campaigns`;
+  async findAll() {
+    return await this.campaignRepository.find({ relations: ['user'] });
   }
 
   findOne(id: number) {
