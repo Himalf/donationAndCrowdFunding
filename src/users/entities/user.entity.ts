@@ -23,7 +23,7 @@ export class User {
   role: UserRole;
   @Column()
   profile_image: string;
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTMAP' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
   @UpdateDateColumn({
     type: 'timestamp',
