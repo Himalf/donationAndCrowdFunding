@@ -6,6 +6,8 @@ import { UsersModule } from 'src/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
@@ -17,9 +19,16 @@ import { ConfigModule } from '@nestjs/config';
     JwtModule.register({
       global: true,
       secret: process.env.SECRET,
+      signOptions: { expiresIn: '5d' },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    AuthService,
+  ],
 })
 export class AuthModule {}
