@@ -34,8 +34,8 @@ export class CampaignsService {
     return await this.campaignRepository.find({ relations: ['user'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} campaign`;
+  async findOne(campaign_id: number) {
+    return await this.campaignRepository.findOne({ where: { campaign_id } });
   }
 
   update(id: number, updateCampaignDto: UpdateCampaignDto) {
