@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from '../dto/userRole.enum';
+import { Campaign } from 'src/campaigns/entities/campaign.entity';
 
 @Entity()
 export class User {
@@ -31,4 +33,7 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: Date;
+
+  @OneToMany(() => Campaign, (campaign) => campaign.user)
+  campaign: Campaign[];
 }
