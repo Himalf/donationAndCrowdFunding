@@ -1,1 +1,19 @@
-export class CreateCampaignDto {}
+import { IsEnum, IsNumber, IsString } from 'class-validator';
+import { CampaignStatus } from './campaignStatus.enum';
+
+export class CreateCampaignDto {
+  @IsString()
+  title: string;
+  @IsString()
+  desctiption: string;
+  @IsNumber()
+  goal_amount: string;
+  @IsString()
+  start_date: string;
+  @IsString()
+  end_date: string;
+  @IsEnum(CampaignStatus)
+  status: CampaignStatus;
+  @IsNumber()
+  user_id: number;
+}
