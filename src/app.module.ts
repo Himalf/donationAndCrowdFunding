@@ -4,6 +4,9 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { CampaignsModule } from './campaigns/campaigns.module';
+import { AuthService } from './auth/auth.service';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,6 +25,7 @@ import { CampaignsModule } from './campaigns/campaigns.module';
     }),
     UsersModule,
     CampaignsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
