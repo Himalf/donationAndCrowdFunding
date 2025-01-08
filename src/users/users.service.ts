@@ -4,8 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { NotFoundError } from 'rxjs';
-
+import * as bcrypt from 'bcryptjs';
 @Injectable()
 export class UsersService {
   constructor(
@@ -13,6 +12,10 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
   async create(createUserDto: CreateUserDto) {
+    const password = createUserDto.password;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    createUserDto.password = hashedPassword;
     const userData = this.userRepository.create(createUserDto);
     return this.userRepository.save(userData);
   }
@@ -32,6 +35,10 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`The user id:${user.user_id} is not found`);
     }
+    const password = updateUserDto.password;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    updateUserDto.password = hashedPassword;
     const updateUserData = await this.userRepository.create({
       ...user,
       ...updateUserDto,
