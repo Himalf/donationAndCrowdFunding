@@ -39,7 +39,7 @@ export class UsersService {
     return this.userRepository.save(updateUserData);
   }
 
-  remove(id: number): Promise<DeleteResult> {
+  async remove(id: number): Promise<DeleteResult> {
     return this.userRepository.delete(id);
   }
 }
