@@ -38,8 +38,24 @@ export class CampaignsService {
     return await this.campaignRepository.findOne({ where: { campaign_id } });
   }
 
-  update(id: number, updateCampaignDto: UpdateCampaignDto) {
-    return `This action updates a #${id} campaign`;
+  async update(campaign_id: number, updateCampaignDto: UpdateCampaignDto) {
+    const campaign = await this.campaignRepository.findOne({
+      where: { campaign_id },
+    });
+    if (!campaign) {
+      throw new NotFoundException(
+        `campaign with campaign_id: ${campaign_id} is not found`,
+      );
+    }
+    const users = await this.userRepository.findOne({
+      where: { user_id: updateCampaignDto.user_id },
+    });
+    const updateCampaignData = this.campaignRepository.create({
+      user: users,
+      ...campaign,
+      ...updateCampaignDto,
+    });
+    return await this.campaignRepository.save(updateCampaignData);
   }
 
   remove(id: number) {
