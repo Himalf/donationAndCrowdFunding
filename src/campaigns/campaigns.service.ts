@@ -58,7 +58,7 @@ export class CampaignsService {
     return await this.campaignRepository.save(updateCampaignData);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} campaign`;
+  async remove(campaign_id: number) {
+    return await this.campaignRepository.delete(campaign_id);
   }
 }
