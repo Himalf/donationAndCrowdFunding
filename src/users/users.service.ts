@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { NotFoundError } from 'rxjs';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class UsersService {
     return this.userRepository.save(updateUserData);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: number): Promise<DeleteResult> {
+    return this.userRepository.delete(id);
   }
 }
