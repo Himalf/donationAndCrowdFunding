@@ -7,7 +7,7 @@ export class CreateCampaignDto {
   @IsString()
   description: string;
   @IsNumber()
-  goal_amount: string;
+  goal_amount: number;
   @IsString()
   start_date: string;
   @IsString()
