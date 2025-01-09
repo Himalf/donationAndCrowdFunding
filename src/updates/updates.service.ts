@@ -60,7 +60,7 @@ export class UpdatesService {
     return this.updateRepository.save(updateData);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} update`;
+  remove(update_id: number) {
+    return this.updateRepository.delete(update_id);
   }
 }
