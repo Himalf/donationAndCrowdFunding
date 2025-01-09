@@ -35,8 +35,11 @@ export class PaymentDetailsService {
     return this.paymentRepository.find({ relations: ['donation'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} paymentDetail`;
+  findOne(paymentDetail_id: number) {
+    return this.paymentRepository.findOne({
+      where: { paymentDetail_id },
+      relations: ['donation'],
+    });
   }
 
   update(id: number, updatePaymentDetailDto: UpdatePaymentDetailDto) {
