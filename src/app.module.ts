@@ -9,6 +9,7 @@ import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { UpdatesModule } from './updates/updates.module';
 import { DonationsModule } from './donations/donations.module';
+import { PaymentDetailsModule } from './payment-details/payment-details.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -30,6 +31,7 @@ import { DonationsModule } from './donations/donations.module';
     AuthModule,
     UpdatesModule,
     DonationsModule,
+    PaymentDetailsModule,
   ],
   controllers: [],
   providers: [],

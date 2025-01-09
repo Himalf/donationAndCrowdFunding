@@ -1,4 +1,5 @@
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
+import { PaymentDetail } from 'src/payment-details/entities/payment-detail.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,4 +30,9 @@ export class Donation {
   user: User;
   @ManyToOne(() => Campaign, (campaign) => campaign.donation)
   campaign: Campaign;
+  @OneToOne(() => PaymentDetail, (paymentDetail) => paymentDetail.donation, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  paymentDetail: PaymentDetail;
 }
