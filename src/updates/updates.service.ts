@@ -3,7 +3,7 @@ import { CreateUpdateDto } from './dto/create-update.dto';
 import { UpdateUpdateDto } from './dto/update-update.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Update } from './entities/update.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
 
 @Injectable()
@@ -28,18 +28,21 @@ export class UpdatesService {
     return this.updateRepository.save(updateData);
   }
 
-  findAll(): Promise<Update[]> {
+  async findAll(): Promise<Update[]> {
     return this.updateRepository.find({ relations: ['campaign'] });
   }
 
-  findOne(update_id: number) {
+  async findOne(update_id: number): Promise<Update> {
     return this.updateRepository.findOne({
       where: { update_id },
       relations: ['campaign'],
     });
   }
 
-  async update(update_id: number, updateUpdateDto: UpdateUpdateDto) {
+  async update(
+    update_id: number,
+    updateUpdateDto: UpdateUpdateDto,
+  ): Promise<Update> {
     const update = await this.updateRepository.findOne({
       where: { update_id },
     });
@@ -60,7 +63,7 @@ export class UpdatesService {
     return this.updateRepository.save(updateData);
   }
 
-  remove(update_id: number) {
+  async remove(update_id: number): Promise<DeleteResult> {
     return this.updateRepository.delete(update_id);
   }
 }
