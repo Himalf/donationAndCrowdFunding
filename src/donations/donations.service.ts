@@ -74,7 +74,7 @@ export class DonationsService {
     return this.donationRepository.save(updateDonation);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} donation`;
+  remove(donation_id: number) {
+    return this.donationRepository.delete(donation_id);
   }
 }
