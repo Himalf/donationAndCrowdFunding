@@ -7,6 +7,7 @@ import { CampaignsModule } from './campaigns/campaigns.module';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
+import { UpdatesModule } from './updates/updates.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     CampaignsModule,
     AuthModule,
+    UpdatesModule,
   ],
   controllers: [],
   providers: [],
