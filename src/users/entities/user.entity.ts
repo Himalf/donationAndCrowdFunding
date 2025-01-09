@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { UserRole } from '../dto/userRole.enum';
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
+import { Donation } from 'src/donations/entities/donation.entity';
 
 @Entity()
 export class User {
@@ -36,4 +37,6 @@ export class User {
 
   @OneToMany(() => Campaign, (campaign) => campaign.user)
   campaign: Campaign[];
+  @OneToMany(() => Donation, (donation) => donation.user)
+  donation: Donation;
 }
