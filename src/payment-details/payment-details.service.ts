@@ -66,7 +66,7 @@ export class PaymentDetailsService {
     return this.paymentRepository.save(updatePaymentDetail);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} paymentDetail`;
+  async remove(paymentDetail_id: number) {
+    return this.paymentRepository.delete(paymentDetail_id);
   }
 }
