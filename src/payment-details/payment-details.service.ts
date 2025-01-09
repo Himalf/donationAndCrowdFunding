@@ -35,15 +35,35 @@ export class PaymentDetailsService {
     return this.paymentRepository.find({ relations: ['donation'] });
   }
 
-  findOne(paymentDetail_id: number) {
+  async findOne(paymentDetail_id: number) {
     return this.paymentRepository.findOne({
       where: { paymentDetail_id },
       relations: ['donation'],
     });
   }
 
-  update(id: number, updatePaymentDetailDto: UpdatePaymentDetailDto) {
-    return `This action updates a #${id} paymentDetail`;
+  async update(
+    paymentDetail_id: number,
+    updatePaymentDetailDto: UpdatePaymentDetailDto,
+  ) {
+    const paymentDetail = await this.paymentRepository.findOne({
+      where: { paymentDetail_id },
+    });
+    if (!paymentDetail) {
+      throw new NotFoundException();
+    }
+    const donations = await this.donationRepository.findOne({
+      where: { donation_id: updatePaymentDetailDto.donation_id },
+    });
+    if (!donations) {
+      throw new NotFoundException();
+    }
+    const updatePaymentDetail = this.paymentRepository.create({
+      ...paymentDetail,
+      donation: donations,
+      ...updatePaymentDetailDto,
+    });
+    return this.paymentRepository.save(updatePaymentDetail);
   }
 
   remove(id: number) {
