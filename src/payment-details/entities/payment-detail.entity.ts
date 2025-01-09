@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -14,7 +16,11 @@ import { PaymentStatus } from '../dto/paymentstatus.enum';
 export class PaymentDetail {
   @PrimaryGeneratedColumn()
   paymentDetail_id: number;
-  @OneToOne(() => Donation, (donation) => donation.paymentDetail)
+  @OneToOne(() => Donation, (donation) => donation.paymentDetail, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn()
   donation: Donation;
   @Column({ type: 'enum', enum: PaymentMethod })
   payment_method: PaymentMethod;

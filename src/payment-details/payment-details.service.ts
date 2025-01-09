@@ -15,7 +15,9 @@ export class PaymentDetailsService {
     private readonly donationRepository: Repository<Donation>,
   ) {}
 
-  async create(createPaymentDetailDto: CreatePaymentDetailDto) {
+  async create(
+    createPaymentDetailDto: CreatePaymentDetailDto,
+  ): Promise<PaymentDetail> {
     const donations = await this.donationRepository.findOne({
       where: { donation_id: createPaymentDetailDto.donation_id },
     });
@@ -26,12 +28,11 @@ export class PaymentDetailsService {
       donation: donations,
       ...createPaymentDetailDto,
     });
-
     return this.paymentRepository.save(paymentData);
   }
 
-  findAll() {
-    return `This action returns all paymentDetails`;
+  async findAll() {
+    return this.paymentRepository.find({ relations: ['donation'] });
   }
 
   findOne(id: number) {
