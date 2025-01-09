@@ -4,12 +4,14 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CampaignStatus } from '../dto/campaignStatus.enum';
 import { User } from 'src/users/entities/user.entity';
 import { Update } from 'src/updates/entities/update.entity';
+import { Donation } from 'src/donations/entities/donation.entity';
 
 @Entity()
 export class Campaign {
@@ -35,4 +37,6 @@ export class Campaign {
   updated_at: Date;
   @OneToMany(() => Update, (update) => update.campaign)
   update: Update;
+  @OneToMany(() => Donation, (donation) => donation.campaign)
+  donation: Donation;
 }
