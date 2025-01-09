@@ -30,6 +30,9 @@ export class Donation {
   user: User;
   @ManyToOne(() => Campaign, (campaign) => campaign.donation)
   campaign: Campaign;
-  @OneToOne(() => PaymentDetail, (paymentDetail) => paymentDetail.donation)
+  @OneToOne(() => PaymentDetail, (paymentDetail) => paymentDetail.donation, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   paymentDetail: PaymentDetail;
 }
