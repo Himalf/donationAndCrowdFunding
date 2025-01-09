@@ -2,7 +2,7 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreateUpdateDto {
   @IsString()
-  message: number;
+  message: string;
   @IsNumber()
   campaign_id: number;
 }
