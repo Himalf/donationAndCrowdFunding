@@ -39,8 +39,25 @@ export class UpdatesService {
     });
   }
 
-  update(id: number, updateUpdateDto: UpdateUpdateDto) {
-    return `This action updates a #${id} update`;
+  async update(update_id: number, updateUpdateDto: UpdateUpdateDto) {
+    const update = await this.updateRepository.findOne({
+      where: { update_id },
+    });
+    if (!update) {
+      throw new NotFoundException();
+    }
+    const campaigns = await this.campaignRepository.findOne({
+      where: { campaign_id: updateUpdateDto.campaign_id },
+    });
+    if (!campaigns) {
+      throw new NotFoundException();
+    }
+    const updateData = this.updateRepository.create({
+      campaign: campaigns,
+      ...update,
+      ...updateUpdateDto,
+    });
+    return this.updateRepository.save(updateData);
   }
 
   remove(id: number) {
