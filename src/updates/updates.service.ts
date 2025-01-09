@@ -28,12 +28,15 @@ export class UpdatesService {
     return this.updateRepository.save(updateData);
   }
 
-  findAll() {
-    return `This action returns all updates`;
+  findAll(): Promise<Update[]> {
+    return this.updateRepository.find({ relations: ['campaign'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} update`;
+  findOne(update_id: number) {
+    return this.updateRepository.findOne({
+      where: { update_id },
+      relations: ['campaign'],
+    });
   }
 
   update(id: number, updateUpdateDto: UpdateUpdateDto) {
