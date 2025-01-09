@@ -3,7 +3,7 @@ import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Donation } from './entities/donation.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
 
@@ -17,7 +17,7 @@ export class DonationsService {
     @InjectRepository(Campaign)
     private readonly campaignRepository: Repository<Campaign>,
   ) {}
-  async create(createDonationDto: CreateDonationDto) {
+  async create(createDonationDto: CreateDonationDto): Promise<Donation> {
     const users = await this.userRepository.findOne({
       where: { user_id: createDonationDto.user_id },
     });
@@ -38,18 +38,21 @@ export class DonationsService {
     return this.donationRepository.save(createDonations);
   }
 
-  async findAll() {
+  async findAll(): Promise<Donation[]> {
     return this.donationRepository.find({ relations: ['user', 'campaign'] });
   }
 
-  async findOne(donation_id: number) {
+  async findOne(donation_id: number): Promise<Donation> {
     return this.donationRepository.findOne({
       where: { donation_id },
       relations: ['user', 'campaign'],
     });
   }
 
-  async update(donation_id: number, updateDonationDto: UpdateDonationDto) {
+  async update(
+    donation_id: number,
+    updateDonationDto: UpdateDonationDto,
+  ): Promise<Donation> {
     const users = await this.userRepository.findOne({
       where: { user_id: updateDonationDto.user_id },
     });
@@ -74,7 +77,7 @@ export class DonationsService {
     return this.donationRepository.save(updateDonation);
   }
 
-  remove(donation_id: number) {
+  async remove(donation_id: number): Promise<DeleteResult> {
     return this.donationRepository.delete(donation_id);
   }
 }
