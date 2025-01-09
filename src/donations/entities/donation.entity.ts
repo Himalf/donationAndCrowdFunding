@@ -1,6 +1,7 @@
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -13,6 +14,8 @@ import {
 export class Donation {
   @PrimaryGeneratedColumn()
   donation_id: number;
+  @Column({ type: 'decimal' })
+  amount: number;
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   donated_at: Date;
   @UpdateDateColumn({
@@ -23,6 +26,6 @@ export class Donation {
   updated_at: Date;
   @ManyToOne(() => User, (user) => user.donation)
   user: User;
-  @OneToMany(() => Campaign, (campaign) => campaign.donation)
+  @ManyToOne(() => Campaign, (campaign) => campaign.donation)
   campaign: Campaign;
 }

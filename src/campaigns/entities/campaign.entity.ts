@@ -37,6 +37,6 @@ export class Campaign {
   updated_at: Date;
   @OneToMany(() => Update, (update) => update.campaign)
   update: Update;
-  @ManyToOne(() => Donation, (donation) => donation.campaign)
+  @OneToMany(() => Donation, (donation) => donation.campaign)
   donation: Donation;
 }
