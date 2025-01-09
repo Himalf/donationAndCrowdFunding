@@ -3,7 +3,7 @@ import { CreatePaymentDetailDto } from './dto/create-payment-detail.dto';
 import { UpdatePaymentDetailDto } from './dto/update-payment-detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaymentDetail } from './entities/payment-detail.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Donation } from 'src/donations/entities/donation.entity';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class PaymentDetailsService {
     return this.paymentRepository.save(paymentData);
   }
 
-  async findAll() {
+  async findAll(): Promise<PaymentDetail[]> {
     return this.paymentRepository.find({ relations: ['donation'] });
   }
 
@@ -45,7 +45,7 @@ export class PaymentDetailsService {
   async update(
     paymentDetail_id: number,
     updatePaymentDetailDto: UpdatePaymentDetailDto,
-  ) {
+  ): Promise<PaymentDetail> {
     const paymentDetail = await this.paymentRepository.findOne({
       where: { paymentDetail_id },
     });
@@ -66,7 +66,7 @@ export class PaymentDetailsService {
     return this.paymentRepository.save(updatePaymentDetail);
   }
 
-  async remove(paymentDetail_id: number) {
+  async remove(paymentDetail_id: number): Promise<DeleteResult> {
     return this.paymentRepository.delete(paymentDetail_id);
   }
 }
