@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) {
-      return true;
+      return true; //to make public route we can use @Public() decorator
     }
 
     const request = context.switchToHttp().getRequest();
@@ -36,6 +36,7 @@ export class AuthGuard implements CanActivate {
         secret: process.env.SECRET,
       });
       request['user'] = payload;
+      console.log(request['user'], 'usrerbhjdb');
     } catch {
       throw new UnauthorizedException();
     }

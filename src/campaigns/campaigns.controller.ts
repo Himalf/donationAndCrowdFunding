@@ -1,12 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { CampaignsService } from './campaigns.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
+import { Roles } from 'src/common/decorators/roles.decorators';
+import { RolesGuard } from 'src/common/guards/roles.guards';
+import { UserRole } from 'src/users/dto/userRole.enum';
+import { User } from 'src/users/entities/user.entity';
 
 @Controller('campaigns')
 export class CampaignsController {
   constructor(private readonly campaignsService: CampaignsService) {}
-
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.admin, UserRole.organizer)
   @Post()
   create(@Body() createCampaignDto: CreateCampaignDto) {
     return this.campaignsService.create(createCampaignDto);
@@ -23,7 +37,10 @@ export class CampaignsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCampaignDto: UpdateCampaignDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCampaignDto: UpdateCampaignDto,
+  ) {
     return this.campaignsService.update(+id, updateCampaignDto);
   }
 
