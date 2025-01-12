@@ -36,7 +36,6 @@ export class AuthGuard implements CanActivate {
         secret: process.env.SECRET,
       });
       request['user'] = payload;
-      console.log(request['user'], 'usrerbhjdb');
     } catch {
       throw new UnauthorizedException();
     }

@@ -18,7 +18,6 @@ export class AuthService {
       throw new NotFoundException(`Email:${email} not found`);
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    console.log(isPasswordCorrect, 'or not');
     if (!isPasswordCorrect) {
       throw new UnauthorizedException('Invalid Credentials');
     }

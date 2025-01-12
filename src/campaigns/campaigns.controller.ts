@@ -15,7 +15,8 @@ import { Roles } from 'src/common/decorators/roles.decorators';
 import { RolesGuard } from 'src/common/guards/roles.guards';
 import { UserRole } from 'src/users/dto/userRole.enum';
 import { User } from 'src/users/entities/user.entity';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
 @Controller('campaigns')
 export class CampaignsController {
   constructor(private readonly campaignsService: CampaignsService) {}

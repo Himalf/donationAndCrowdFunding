@@ -11,7 +11,7 @@ import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-
+@ApiBearerAuth()
 @Controller('donations')
 export class DonationsController {
   constructor(private readonly donationsService: DonationsService) {}
@@ -20,7 +20,7 @@ export class DonationsController {
   create(@Body() createDonationDto: CreateDonationDto) {
     return this.donationsService.create(createDonationDto);
   }
-  @ApiBearerAuth()
+
   @Get()
   findAll() {
     return this.donationsService.findAll();

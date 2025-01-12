@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PaymentDetailsService } from './payment-details.service';
 import { CreatePaymentDetailDto } from './dto/create-payment-detail.dto';
 import { UpdatePaymentDetailDto } from './dto/update-payment-detail.dto';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
 @Controller('payment-details')
 export class PaymentDetailsController {
   constructor(private readonly paymentDetailsService: PaymentDetailsService) {}
@@ -23,7 +32,10 @@ export class PaymentDetailsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDetailDto: UpdatePaymentDetailDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePaymentDetailDto: UpdatePaymentDetailDto,
+  ) {
     return this.paymentDetailsService.update(+id, updatePaymentDetailDto);
   }
 
