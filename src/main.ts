@@ -9,11 +9,15 @@ async function bootstrap() {
     .setDescription(
       'The donation and crowdfunding system that allows us to donate as a donot in various campaigns',
     )
-    .setVersion('1.0')
+    .setVersion('3.0')
     .addTag('Donations')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, documentFactory);
+  SwaggerModule.setup('', app, documentFactory, {
+    jsonDocumentUrl: 'json',
+  });
+
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();
