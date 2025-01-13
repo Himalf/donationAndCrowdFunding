@@ -19,7 +19,7 @@ async function bootstrap() {
   SwaggerModule.setup('', app, documentFactory, {
     jsonDocumentUrl: 'json',
   });
-  app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();

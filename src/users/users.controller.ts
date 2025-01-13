@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,13 +17,30 @@ import { Public } from 'src/auth/auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { log } from 'node:console';
+import multer, { diskStorage } from 'multer';
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Public()
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  @UseInterceptors(
+    FileInterceptor('profile_image', {
+      storage: diskStorage({
+        destination: 'uploads',
+        filename: (req, file, callback) => {
+          callback(null, file.originalname);
+        },
+      }),
+    }),
+  )
+  create(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() profile_image: Express.Multer.File,
+  ) {
+    if (profile_image) {
+      createUserDto.profile_image = `uploads/${profile_image.filename}`;
+    }
     return this.usersService.create(createUserDto);
   }
   @Get()
@@ -44,8 +62,17 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
   @Post('uploads')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: 'uploads',
+        filename: (req, file, cb) => {
+          cb(null, file.originalname);
+        },
+      }),
+    }),
+  )
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file, 'this is the uploaded file');
+    console.log(file.originalname, 'this is the uploaded file');
   }
 }

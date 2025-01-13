@@ -10,10 +10,16 @@ import { AuthModule } from './auth/auth.module';
 import { UpdatesModule } from './updates/updates.module';
 import { DonationsModule } from './donations/donations.module';
 import { PaymentDetailsModule } from './payment-details/payment-details.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
