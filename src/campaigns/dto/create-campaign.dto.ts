@@ -18,7 +18,7 @@ export class CreateCampaignDto {
   @ApiProperty()
   @IsString()
   end_date: string;
-  @ApiProperty()
+  @ApiProperty({ enum: CampaignStatus })
   @IsEnum(CampaignStatus)
   status: CampaignStatus;
   @ApiProperty()
