@@ -6,13 +6,16 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard, Public } from 'src/auth/auth.guard';
+import { Public } from 'src/auth/auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { log } from 'node:console';
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
@@ -39,5 +42,10 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+  @Post('uploads')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file, 'this is the uploaded file');
   }
 }
