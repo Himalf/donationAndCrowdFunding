@@ -21,7 +21,7 @@ export class UpdatesService {
     if (!campaigns) {
       throw new NotFoundException(`campaign  is not found`);
     }
-    const updateData = await this.updateRepository.create({
+    const updateData = this.updateRepository.create({
       campaign: campaigns,
       ...createUpdateDto,
     });
