@@ -14,11 +14,11 @@ export class CreateUserDto {
   email: string;
   @ApiProperty()
   @IsString()
-  password;
+  password: string;
   @ApiProperty({ enum: UserRole })
   @IsEnum(UserRole)
   role: UserRole;
-  @ApiProperty()
+  @ApiProperty({ type: 'string', format: 'binary' })
   @IsString()
   profile_image: string;
 }
