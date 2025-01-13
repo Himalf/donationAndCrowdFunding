@@ -14,7 +14,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/auth.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { log } from 'node:console';
 import multer, { diskStorage } from 'multer';
@@ -24,6 +24,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Public()
   @Post()
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(
     FileInterceptor('profile_image', {
       storage: diskStorage({
