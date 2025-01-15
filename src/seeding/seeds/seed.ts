@@ -10,6 +10,7 @@ import { PaymentDetail } from 'src/payment-details/entities/payment-detail.entit
 import { Update } from 'src/updates/entities/update.entity';
 import { donationFactory } from '../factories/donation.factory';
 import { updatesFactory } from '../factories/updates.factory';
+import { paymentDetailFactory } from '../factories/paymentDetail.factory';
 
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
@@ -20,7 +21,13 @@ const options: DataSourceOptions & SeederOptions = {
   database: process.env.DB_NAME || 'crowdfunding',
   entities: [User, Campaign, Donation, PaymentDetail, Update],
   synchronize: true,
-  factories: [UsersFactory, campaignFactory, donationFactory, updatesFactory],
+  factories: [
+    UsersFactory,
+    campaignFactory,
+    donationFactory,
+    updatesFactory,
+    paymentDetailFactory,
+  ],
   seeds: [MainSeeder],
 };
 

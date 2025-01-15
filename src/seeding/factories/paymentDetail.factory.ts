@@ -21,10 +21,5 @@ export const paymentDetailFactory = setSeederFactory(PaymentDetail, () => {
     PaymentStatus.SUCCESS,
   ]);
   paymentDetail.transaction_id = parseInt(uuidv4());
+  return paymentDetail;
 });
-
-// campaign.status = faker.helpers.arrayElement([
-//   CampaignStatus.ACTIVE,
-//   CampaignStatus.CANCELED,
-//   CampaignStatus.COMPLETED,
-// ]);
