@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker/.';
+import { faker } from '@faker-js/faker';
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
 import { User } from 'src/users/entities/user.entity';
 import { DataSource } from 'typeorm';
@@ -12,17 +12,19 @@ export default class MainSeeder implements Seeder {
     const campaignRepository = dataSource.getRepository(Campaign);
     const userFactory = factoryManager.get(User);
     const campaignFactory = factoryManager.get(Campaign);
-    const users = await userFactory.saveMany(7);
-    const campaign = await Promise.all(
+
+    const user = await userFactory.saveMany(7);
+
+    const campaigns = await Promise.all(
       Array(17)
-        .fill('')
-        .map(async () => {
-          const made = await campaignFactory.make({
-            user: faker.helpers.arrayElement(users),
-          });
-          return made;
-        }),
+        .fill(null)
+        .map(() =>
+          campaignFactory.make({
+            user: faker.helpers.arrayElement(user),
+          }),
+        ),
     );
-    await campaignRepository.save(campaign);
+
+    await campaignRepository.save(campaigns);
   }
 }
