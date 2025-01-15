@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Campaign } from 'src/campaigns/entities/campaign.entity';
+import { Donation } from 'src/donations/entities/donation.entity';
 import { User } from 'src/users/entities/user.entity';
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
@@ -10,9 +11,10 @@ export default class MainSeeder implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     const campaignRepository = dataSource.getRepository(Campaign);
+    const donationRepository = dataSource.getRepository(Donation);
     const userFactory = factoryManager.get(User);
     const campaignFactory = factoryManager.get(Campaign);
-
+    const donationFactory = factoryManager.get(Donation);
     const user = await userFactory.saveMany(7);
 
     const campaigns = await Promise.all(
@@ -26,5 +28,17 @@ export default class MainSeeder implements Seeder {
     );
 
     await campaignRepository.save(campaigns);
+
+    const donations = await Promise.all(
+      Array(20)
+        .fill(null)
+        .map(() =>
+          donationFactory.make({
+            user: faker.helpers.arrayElement(user),
+            campaign: faker.helpers.arrayElement(campaigns),
+          }),
+        ),
+    );
+    await donationRepository.save(donations);
   }
 }
