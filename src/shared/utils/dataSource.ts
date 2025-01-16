@@ -1,10 +1,9 @@
 import { DataSource } from 'typeorm';
-import { join } from 'path';
-import { User } from 'src/users/entities/user.entity';
-import { Campaign } from 'src/campaigns/entities/campaign.entity';
-import { Donation } from 'src/donations/entities/donation.entity';
-import { PaymentDetail } from 'src/payment-details/entities/payment-detail.entity';
-import { Update } from 'src/updates/entities/update.entity';
+import { User } from '../../users/entities/user.entity';
+import { Campaign } from '../../campaigns/entities/campaign.entity';
+import { Donation } from '../../donations/entities/donation.entity';
+import { PaymentDetail } from '../../payment-details/entities/payment-detail.entity';
+import { Update } from '../../updates/entities/update.entity';
 
 export const connectionSource = new DataSource({
   type: 'postgres',
@@ -15,8 +14,17 @@ export const connectionSource = new DataSource({
   database: 'crowdfunding',
   logging: true,
   entities: [User, Campaign, Donation, PaymentDetail, Update],
-  migrations: [join(__dirname, '/../../', 'database/migrations/**/*{.ts,.js}')],
+  migrations: ['dist/migrations/**/*.js'],
   synchronize: false,
   migrationsTableName: 'typeorm_migrations',
   migrationsRun: false,
 });
+
+connectionSource
+  .initialize()
+  .then(() => {
+    console.log('DataSource has been initialized!');
+  })
+  .catch((err) => {
+    console.error('Error during DataSource initialization', err);
+  });
