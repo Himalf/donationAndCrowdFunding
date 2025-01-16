@@ -1,11 +1,11 @@
+import { UserRole } from 'src/users/dto/userRole.enum';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { UserRole } from '../../users/dto/userRole.enum'; // Adjust this path if necessary
 
-export class Users1737041776580 implements MigrationInterface {
+export class Users1737044867555 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user',
+        name: 'users',
         columns: [
           {
             name: 'user_id',
@@ -37,6 +37,6 @@ export class Users1737041776580 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('users');
   }
 }
