@@ -6,6 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "migration:create": "cross-var ts-node node_modules/typeorm/cli.js migration:create ./src/database/migrations/$npm_config_name",
+    "migrate": "ts-node node_modules/typeorm/cli.js migration:run -d src/shared/utils/datasource.ts",
+    "migration:down": "ts-node node_modules/typeorm/cli.js migration:revert -d src/shared/utils/datasource.ts",
     "seed": "ts-node -r tsconfig-paths/register src/seeding/seeds/seed.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -56,6 +59,7 @@
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "cross-var": "^1.1.0",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
