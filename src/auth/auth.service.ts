@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -35,6 +36,23 @@ export class AuthService {
     return { msg: 'Otp send to email' };
   }
 
+  async resetPassword(email: string, otp: string, newPassword: string) {
+    const user = await this.userService.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    if (user.resetOtp != otp || user.otpExpiresAt < new Date()) {
+      throw new BadRequestException('Invalid or expired OTP');
+    }
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    // clear OTP fields
+    user.resetOtp = null;
+    user.otpExpiresAt = null;
+    await this.userService.update(user.user_id, user);
+    return { msg: 'password reset successfully' };
+  }
   async signIn(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
     if (!user) {
