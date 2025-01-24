@@ -21,12 +21,12 @@ import { hostname } from 'os';
         host: 'smtp.gmail.com', // Your email host (e.g., Gmail, SMTP server)
         port: 587,
         auth: {
-          user: 'your-email@example.com', // Your email
-          pass: 'your-email-password', // Your email password
+          user: 'himal.fullel15@gmail.com', // Your email
+          pass: 'fqsm ighf gltq lqxb', // Your email password
         },
       },
       defaults: {
-        from: '"No Reply" <no-reply@example.com>',
+        from: '"No Reply" <himal.fullel15@gmail.com>',
       },
     }),
     ConfigModule.forRoot({
@@ -43,9 +43,9 @@ import { hostname } from 'os';
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      entities: [User],
+      // entities: [User],
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       migrationsTableName: 'typeorm_migrations',
       migrationsRun: false,
       logging: true,

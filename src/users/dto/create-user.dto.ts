@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { UserRole } from './userRole.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -21,4 +21,8 @@ export class CreateUserDto {
   @ApiProperty({ type: 'string', format: 'binary' })
   @IsString()
   profile_image: string;
+  @IsOptional()
+  resetOtp: string;
+  @IsOptional()
+  otpExpiresAt: Date;
 }
