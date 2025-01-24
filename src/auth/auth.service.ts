@@ -30,8 +30,19 @@ export class AuthService {
     // send email
     await this.mailerService.sendMail({
       to: email,
-      subject: 'password reset otp',
-      text: `your otp is : ${otp} and valid for 10 min`,
+      subject: 'Password Reset OTP - Donation and Crowdfunding App',
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <h2 style="color: #0056b3;">Donation and Crowdfunding App</h2>
+          <p>Dear ${user.name},</p>
+          <p>You have requested to reset your password. Use the OTP below to complete the process:</p>
+          <h3 style="color: #d9534f;">${otp}</h3>
+          <p>This OTP is valid for 10 minutes. If you did not request this, please ignore this email.</p>
+          <br/>
+          <p>Regards,</p>
+          <p><strong>Himal Fullel</strong><br/>Donation and Crowdfunding App</p>
+        </div>
+      `,
     });
     return { msg: 'Otp send to email' };
   }

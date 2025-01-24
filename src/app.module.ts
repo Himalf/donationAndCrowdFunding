@@ -26,7 +26,7 @@ import { hostname } from 'os';
         },
       },
       defaults: {
-        from: '"No Reply" <himal.fullel15@gmail.com>',
+        from: '"Donation and Crowdfunding App" <himal.fullel15@gmail.com>',
       },
     }),
     ConfigModule.forRoot({
