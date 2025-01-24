@@ -45,12 +45,10 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired OTP');
     }
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
-
-    // clear OTP fields
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
     user.resetOtp = null;
     user.otpExpiresAt = null;
-    await this.userService.update(user.user_id, user);
+    await this.userService.update(user.user_id, { password: hashedPassword });
     return { msg: 'password reset successfully' };
   }
   async signIn(email: string, password: string) {
