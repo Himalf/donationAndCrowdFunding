@@ -39,4 +39,8 @@ export class User {
   campaign: Campaign[];
   @OneToMany(() => Donation, (donation) => donation.user)
   donation: Donation;
+  @Column({ nullable: true })
+  resetOtp: string;
+  @Column({ nullable: true, type: 'timestamp' })
+  otpExpiresAt: Date;
 }

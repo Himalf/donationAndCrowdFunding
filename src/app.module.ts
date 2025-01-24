@@ -12,8 +12,23 @@ import { DonationsModule } from './donations/donations.module';
 import { PaymentDetailsModule } from './payment-details/payment-details.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { hostname } from 'os';
 @Module({
   imports: [
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com', // Your email host (e.g., Gmail, SMTP server)
+        port: 587,
+        auth: {
+          user: 'your-email@example.com', // Your email
+          pass: 'your-email-password', // Your email password
+        },
+      },
+      defaults: {
+        from: '"No Reply" <no-reply@example.com>',
+      },
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
