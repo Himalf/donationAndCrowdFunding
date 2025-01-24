@@ -35,10 +35,6 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`The user id:${user.user_id} is not found`);
     }
-    if (updateUserDto.password && !updateUserDto.password.startsWith('$2b$')) {
-      const salt = await bcrypt.genSalt(10);
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
-    }
     const password = updateUserDto.password;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);

@@ -38,6 +38,7 @@ export class AuthService {
 
   async resetPassword(email: string, otp: string, newPassword: string) {
     const user = await this.userService.findByEmail(email);
+    console.log(user, 'user data');
     if (!user) {
       throw new NotFoundException('user not found');
     }
@@ -45,11 +46,14 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired OTP');
     }
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
     user.resetOtp = null;
     user.otpExpiresAt = null;
-    await this.userService.update(user.user_id, { password: hashedPassword });
-    return { msg: 'password reset successfully' };
+    await this.userService.update(user.user_id, {
+      password: newPassword,
+      resetOtp: null,
+      otpExpiresAt: null,
+    });
+    return { msg: 'password reset successfully', user, newPassword };
   }
   async signIn(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
@@ -57,6 +61,7 @@ export class AuthService {
       throw new NotFoundException(`Email:${email} not found`);
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    console.log(isPasswordCorrect, 'correct');
     if (!isPasswordCorrect) {
       throw new NotFoundException('Invalid Credentials');
     }
