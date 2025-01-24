@@ -26,6 +26,10 @@ export class User {
   role: UserRole;
   @Column()
   profile_image: string;
+  @Column({ nullable: true })
+  resetOtp: string;
+  @Column({ nullable: true, type: 'timestamp' })
+  otpExpiresAt: Date;
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
   @UpdateDateColumn({

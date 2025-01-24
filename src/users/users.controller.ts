@@ -73,7 +73,5 @@ export class UsersController {
       }),
     }),
   )
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file.originalname, 'this is the uploaded file');
-  }
+  uploadFile(@UploadedFile() file: Express.Multer.File) {}
 }

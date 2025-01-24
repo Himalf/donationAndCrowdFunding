@@ -26,4 +26,18 @@ export class AuthController {
   ) {
     return this.authService.signIn(email, password);
   }
+  @Public()
+  @Post('forget-password')
+  async requestOtp(@Body('email') email: string) {
+    return this.authService.requestOtp(email);
+  }
+  @Public()
+  @Post('reset-password')
+  async resetPassword(
+    @Body('email') email: string,
+    @Body('otp') otp: string,
+    @Body('newPassword') newPassword: string,
+  ) {
+    return this.authService.resetPassword(email, otp, newPassword);
+  }
 }
